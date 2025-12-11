@@ -1,26 +1,32 @@
+/* Global */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
+/* Chat Container */
 .chat-container {
   display: flex;
   flex-direction: column;
-  /* Default for mobile: full height and width */
-  height: 100vh; 
-  width: 100%;
+  height: 100vh;      /* Full Android height */
+  width: 100vw;       /* Full Android width */
+  max-width: 100%;    /* Prevent overflow */
+  padding-bottom: env(safe-area-inset-bottom); /* For Android safe areas */
+  box-sizing: border-box;
 }
 
-/* 📱 Mobile Responsiveness (Phone Screen Ratio) 📱 */
-/* Apply this style only to screens wider than 600px (i.e., tablet and desktop) */
+/* 🖥️ Desktop View Only */
 @media (min-width: 600px) {
   .chat-container {
-    max-width: 500px; /* Standard mobile-like width */
-    height: 90vh; /* Shorter height to center on desktop */
-    margin: 5vh auto 0 auto; /* Center horizontally and push down from top */
+    max-width: 480px; 
+    height: 90vh;
+    margin: 5vh auto;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     overflow: hidden;
   }
 }
@@ -28,7 +34,7 @@ body {
 /* Header */
 .header {
   background: linear-gradient(to right, #ef4444, #dc2626);
-  padding: 16px;
+  padding: 12px;
   color: white;
   box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
@@ -37,79 +43,65 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
 }
 
 .brand {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
 .college-logo {
-  height: 48px;       /* adjust if your logo is larger/smaller */
+  height: 40px;
   width: auto;
-  margin-right: 12px;
-  border-radius: 4px; /* optional */
   object-fit: contain;
 }
 
 .college-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .college-sub {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #ffe1e1;
 }
 
 .affiliated {
-  font-size: 11px;
+  font-size: 10px;
   opacity: 0.8;
-  font-style: italic;
-}
-
-.assistant-tag {
-  padding: 6px 12px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 8px;
-  backdrop-filter: blur(3px);
 }
 
 /* Messages */
 .messages {
   flex: 1;
-  padding: 20px;
+  padding: 16px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .msg {
   display: flex;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.msg-bot {
-  justify-content: flex-start;
-}
-
-.msg-user {
-  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .bubble {
-  padding: 12px 16px;
-  border-radius: 16px;
-  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  max-width: 75vw;   /* Prevent overflow */
   font-size: 14px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
-  white-space: pre-line;
+  word-break: break-word;
 }
 
 .bubble-bot {
   background: white;
-  color: #333;
 }
 
 .bubble-user {
@@ -117,118 +109,68 @@ body {
   color: white;
 }
 
-.user-icon,
-.bot-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.user-icon {
-  background: linear-gradient(to right, #2563eb, #4f46e5);
-  color: white;
-}
-
-.bot-icon {
-  background: white;
-  color: #2563eb;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
-}
-
 /* Typing dots */
 .typing {
   display: flex;
   gap: 6px;
-  padding-top: 10px;
 }
 
 .dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   background: gray;
   border-radius: 50%;
   animation: bounce 0.6s infinite;
 }
-
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
 
-/* Quick Actions (DROPDOWN STYLES) */
+/* Quick Actions */
 .quick-actions {
   background: white;
-  padding: 12px 20px 12px 20px; /* Reduced bottom padding */
+  padding: 12px 20px;
   border-top: 1px solid #ddd;
-  overflow: hidden; /* Important for the dropdown height transition */
-  transition: all 0.3s ease-in-out; 
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 .quick-title {
   display: flex;
   gap: 8px;
   align-items: center;
-  color: #555;
   font-size: 14px;
-  cursor: pointer; /* Indicate it's clickable */
-  padding-bottom: 12px;
-  border-bottom: 1px solid #f0f0f0; 
-}
-
-.quick-title i {
-    transition: transform 0.3s;
-}
-
-.quick-actions.expanded .quick-title i[data-lucide="chevron-down"] {
-    transform: rotate(180deg); /* Flip the arrow when expanded */
-}
-
-.quick-buttons {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically for a cleaner dropdown */
-  gap: 4px; 
-  max-height: 0; /* Hidden by default */
-  opacity: 0;
-  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  padding-bottom: 8px;
 }
 
 .quick-actions.expanded .quick-buttons {
-  max-height: 500px; /* Show all buttons */
+  max-height: 400px;
   opacity: 1;
-  padding-bottom: 20px; /* Add space at the bottom when visible */
+  padding-bottom: 16px;
 }
 
+.quick-buttons {
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* Buttons */
 .quick-btn {
-  /* MODIFIED FOR DROPDOWN LOOK */
   width: 100%;
-  text-align: left;
-  padding: 10px 14px;
-  border: none; 
+  padding: 10px;
   background: transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333; 
-  transition: background 0.2s, color 0.2s;
-}
-
-.quick-btn:hover {
-  background: #eef2ff;
-  color: #2563eb;
+  border: none;
+  text-align: left;
 }
 
 /* Input */
 .input-box {
   display: flex;
   gap: 10px;
-  padding: 14px;
+  padding: 12px;
   background: white;
   border-top: 1px solid #ddd;
 }
@@ -236,8 +178,8 @@ body {
 #userInput {
   flex: 1;
   padding: 12px;
-  border-radius: 12px;
   border: 1px solid #ccc;
+  border-radius: 12px;
 }
 
 #sendBtn {
@@ -246,12 +188,4 @@ body {
   color: white;
   border: none;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-#sendBtn:hover {
-  opacity: 0.85;
 }

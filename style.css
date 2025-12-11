@@ -1,5 +1,5 @@
 :root {
-  --vh: 1vh; /* Default fallback for modern units */
+  --vh: 1vh; /* Custom property for mobile height fix */
 }
 
 body {
@@ -11,7 +11,7 @@ body {
 .chat-container {
   display: flex;
   flex-direction: column;
-  /* Use the custom property for mobile height */
+  /* Default for mobile: full height and width (using custom property) */
   height: calc(var(--vh, 1vh) * 100); 
   width: 100%;
 }
@@ -85,7 +85,7 @@ body {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  background-color: #fcfdff; /* Add a light background to the message area */
+  background-color: #fcfdff; 
 }
 
 .msg {
@@ -183,16 +183,16 @@ body {
 
 .quick-select-wrapper {
   position: relative;
-  display: block; /* Make it take full width */
+  display: block; 
   width: 100%; 
-  max-width: 300px; /* Optional: Limit width on wider screens */
+  max-width: 300px; 
 }
 
 .quick-select {
   width: 100%; 
   padding: 10px 14px;
-  border: 1px solid #c9d0f0; /* Light blue/primary color border */
-  background-color: #f7f9ff; /* Very light background */
+  border: 1px solid #c9d0f0; 
+  background-color: #f7f9ff; 
   border-radius: 8px;
   font-size: 14px;
   color: #2563eb;
@@ -213,8 +213,6 @@ body {
 
 /* Custom arrow for the dropdown */
 .quick-select-wrapper::after {
-  content: 'chevron-down'; /* Unicode down arrow (or use a Lucide icon via content, if possible, but text is simpler for CSS pseudo-elements) */
-  font-family: 'lucide'; /* You may need to load lucide as a font for this to work, but let's use a simple arrow for compatibility */
   content: '▼';
   position: absolute;
   top: 50%;

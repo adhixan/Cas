@@ -1,50 +1,31 @@
-/* ---------------------------------------------------------
-   GLOBAL SETTINGS – Perfect Android Phone Fit
---------------------------------------------------------- */
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overscroll-behavior: none;
-  touch-action: manipulation;
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
 }
 
-/* Dynamic Android/iOS height fix */
-:root {
-  --app-height: 100dvh;
-}
-
-/* ---------------------------------------------------------
-   MAIN CHAT CONTAINER
---------------------------------------------------------- */
 .chat-container {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: var(--app-height);   /* 100% perfect phone height */
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
+  /* Default for mobile: full height and width */
+  height: 100vh; 
+  width: 100%;
 }
 
-/* Desktop / tablet limit */
+/* 📱 Mobile Responsiveness (Phone Screen Ratio) 📱 */
+/* Apply this style only to screens wider than 600px (i.e., tablet and desktop) */
 @media (min-width: 600px) {
   .chat-container {
-    max-width: 500px;
-    height: 90vh;
-    margin: 5vh auto 0 auto;
+    max-width: 500px; /* Standard mobile-like width */
+    height: 90vh; /* Shorter height to center on desktop */
+    margin: 5vh auto 0 auto; /* Center horizontally and push down from top */
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     overflow: hidden;
   }
 }
 
-/* ---------------------------------------------------------
-   HEADER
---------------------------------------------------------- */
+/* Header */
 .header {
   background: linear-gradient(to right, #ef4444, #dc2626);
   padding: 16px;
@@ -65,11 +46,11 @@ html, body {
 }
 
 .college-logo {
-  height: 48px;
+  height: 48px;       /* adjust if your logo is larger/smaller */
   width: auto;
   margin-right: 12px;
+  border-radius: 4px; /* optional */
   object-fit: contain;
-  border-radius: 4px;
 }
 
 .college-title {
@@ -96,14 +77,11 @@ html, body {
   backdrop-filter: blur(3px);
 }
 
-/* ---------------------------------------------------------
-   MESSAGES AREA
---------------------------------------------------------- */
+/* Messages */
 .messages {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 .msg {
@@ -125,8 +103,8 @@ html, body {
   border-radius: 16px;
   max-width: 70%;
   font-size: 14px;
-  white-space: pre-line;
   box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
+  white-space: pre-line;
 }
 
 .bubble-bot {
@@ -145,8 +123,8 @@ html, body {
   height: 40px;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .user-icon {
@@ -160,9 +138,7 @@ html, body {
   box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
 
-/* ---------------------------------------------------------
-   TYPING INDICATOR
---------------------------------------------------------- */
+/* Typing dots */
 .typing {
   display: flex;
   gap: 6px;
@@ -177,26 +153,21 @@ html, body {
   animation: bounce 0.6s infinite;
 }
 
-.dot:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.dot:nth-child(3) {
-  animation-delay: 0.4s;
-}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
 
-/* ---------------------------------------------------------
-   QUICK ACTION BUTTONS
---------------------------------------------------------- */
+/* Quick Actions (DROPDOWN STYLES) */
 .quick-actions {
   background: white;
-  padding: 12px 20px 44px 20px;
+  padding: 12px 20px 12px 20px; /* Reduced bottom padding */
   border-top: 1px solid #ddd;
+  overflow: hidden; /* Important for the dropdown height transition */
+  transition: all 0.3s ease-in-out; 
 }
 
 .quick-title {
@@ -205,33 +176,55 @@ html, body {
   align-items: center;
   color: #555;
   font-size: 14px;
+  cursor: pointer; /* Indicate it's clickable */
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0; 
+}
+
+.quick-title i {
+    transition: transform 0.3s;
+}
+
+.quick-actions.expanded .quick-title i[data-lucide="chevron-down"] {
+    transform: rotate(180deg); /* Flip the arrow when expanded */
 }
 
 .quick-buttons {
   margin-top: 10px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column; /* Stack buttons vertically for a cleaner dropdown */
+  gap: 4px; 
+  max-height: 0; /* Hidden by default */
+  opacity: 0;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.quick-actions.expanded .quick-buttons {
+  max-height: 500px; /* Show all buttons */
+  opacity: 1;
+  padding-bottom: 20px; /* Add space at the bottom when visible */
 }
 
 .quick-btn {
-  padding: 8px 14px;
-  background: white;
-  border: 1px solid #d0d7ff;
-  border-radius: 8px;
-  color: #2563eb;
-  font-size: 13px;
+  /* MODIFIED FOR DROPDOWN LOOK */
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border: none; 
+  background: transparent;
+  border-radius: 4px;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 14px;
+  color: #333; 
+  transition: background 0.2s, color 0.2s;
 }
 
 .quick-btn:hover {
   background: #eef2ff;
+  color: #2563eb;
 }
 
-/* ---------------------------------------------------------
-   INPUT BAR
---------------------------------------------------------- */
+/* Input */
 .input-box {
   display: flex;
   gap: 10px;
@@ -245,7 +238,6 @@ html, body {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid #ccc;
-  font-size: 14px;
 }
 
 #sendBtn {
@@ -258,7 +250,6 @@ html, body {
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 #sendBtn:hover {

@@ -5,15 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("sendBtn");
   const quickActions = document.getElementById("quickActions");
   const quickButtonsDiv = quickActions.querySelector('.quick-buttons'); 
-  // NEW: Dropdown element reference
-  const quickTitle = quickActions.querySelector('.quick-title');
-
-
-  // HIDE QUICK ACTIONS ON LOAD
-  quickActions.style.display = 'none';
 
   // --- 1. Bot Data and Special Actions ---
-
   const casData = {
     collegeInfo: `
 **College of Applied Science (CAS) Vattamkulam - Basic Details**
@@ -278,57 +271,31 @@ We provide excellent facilities to support your learning:
   };
 
 
-  // --- 2. Quick Action Button Definitions ---
-  // Updated quick actions to prompt detailed queries
-  const defaultActions = [
-      'B.Sc Computer Science details',
-      'M.Com Finance fees',
-      'BBA Logistics Honours eligibility',
-      'Admission procedure'
-  ];
-  // Expanded list for the dropdown
-  const allQuickActions = [
+  // --- 2. Quick Action Button Definitions (Simplified List) ---
+  const initialQuickActions = [
       'Show all courses',
       'Admission procedure',
-      'Facilities available',
-      'Contact details',
       'What is the fee structure?',
       'B.Sc Computer Science details',
-      'BCA details',
-      'B.Sc Electronics details',
-      'B.Com Honours details',
-      'BBA Logistics Honours details',
-      'M.Sc Computer Science details',
       'M.Com Finance details',
+      'Facilities available',
+      'Contact details',
       'Clubs and activities',
-      'What is the mission and vision?'
   ];
 
 
-  // --- 3. Helper Functions for UI and Logic ---
+  // --- 3. Helper Functions for UI and Logic (Simplified setQuickActions) ---
 
-  function setQuickActions(title, buttons) {
-      const quickTitleSpan = quickActions.querySelector('.quick-title span');
-      quickTitleSpan.textContent = title;
-      
+  function setQuickActions(buttons) {
       quickButtonsDiv.innerHTML = ''; // Clear old buttons
       
-      // If we use allQuickActions, it's for the dropdown, which requires special handling
-      const buttonsToDisplay = title === 'More Options:' ? allQuickActions : defaultActions;
-
-
-      buttonsToDisplay.forEach(btnText => {
+      buttons.forEach(btnText => {
           const button = document.createElement('button');
           button.className = 'quick-btn';
           button.textContent = btnText;
-          // Dynamically set display based on dropdown state (only for the main list)
-          if(title === 'More Options:') {
-            // New: Hide by default for the dropdown effect, will be shown by CSS/JS toggle
-            button.style.display = 'none'; 
-          }
 
           button.addEventListener('click', () => {
-              // Toggle off the quick actions for a cleaner look when selecting
+              // Hide quick actions for a cleaner look when selecting
               quickActions.style.display = 'none'; 
               // Set input value and trigger sendMessage
               input.value = button.textContent;
@@ -336,50 +303,20 @@ We provide excellent facilities to support your learning:
           });
           quickButtonsDiv.appendChild(button);
       });
-      // Set the initial visible actions to the *default* set for the quick-buttons div
-      // (This logic needs to be handled via CSS/HTML for a true dropdown toggle)
-      
       // Show the quick actions box
       quickActions.style.display = 'block';
   }
 
   function initializeQuickActions() {
-      // Sets the default buttons and ensures they are wired up
-      // We'll use the 'More Options' set, and let the CSS/JS handle the toggling
-      setQuickActions('More Options:', allQuickActions); 
-
-      // NEW: Ensure only the first few are initially visible (handled by CSS, but listing them here for clarity)
-      // The CSS/HTML will be responsible for the "dropdown" appearance.
+      // Sets the simplified quick action buttons
+      setQuickActions(initialQuickActions); 
+      // Ensure the title is correct and icons are created
+      const quickTitleSpan = quickActions.querySelector('.quick-title span');
+      quickTitleSpan.textContent = 'Quick questions:';
+      const sparkIcon = quickActions.querySelector('.quick-title i[data-lucide]');
+      sparkIcon.setAttribute('data-lucide', 'sparkles');
+      lucide.createIcons();
   }
-
-  // NEW: Dropdown Toggle Function
-  function toggleQuickActionsDropdown() {
-      // Toggle a class on the container that controls the visibility of all quick-btn elements
-      quickActions.classList.toggle('expanded');
-      
-      // Toggle the arrow icon (handled by the CSS/HTML proposal)
-      const arrowIcon = quickActions.querySelector('.quick-title i[data-lucide]');
-      if (quickActions.classList.contains('expanded')) {
-          arrowIcon.setAttribute('data-lucide', 'chevron-down');
-      } else {
-          arrowIcon.setAttribute('data-lucide', 'sparkles'); // Or 'chevron-up' if you prefer
-      }
-
-      // Toggle visibility of all buttons in the quick-buttons container
-      const buttons = quickButtonsDiv.querySelectorAll('.quick-btn');
-      buttons.forEach((btn, index) => {
-          // You could show a smaller list by default or use a pure CSS approach
-          // For simplicity with the existing structure, we'll just show/hide all.
-          btn.style.display = quickActions.classList.contains('expanded') ? 'block' : 'none';
-      });
-
-      // After a user selection, we must collapse the dropdown
-      // This logic will be handled inside the button click event listener in setQuickActions
-  }
-  
-  // NOTE: For the 'drop down with arrow' to work correctly, the HTML and CSS must be modified. 
-  // I will proceed with the data logic in JS, assuming the user will apply the necessary visual changes.
-  // I'm keeping the original setQuickActions logic simple and focusing on data delivery.
 
   function addUserMessage(text) {
     const div = document.createElement("div");
@@ -430,8 +367,7 @@ We provide excellent facilities to support your learning:
   }
 
 
-  // --- 4. Reply Logic (FIXED FACILITIES MATCHING) ---
-
+  // --- 4. Reply Logic (Decision Tree) ---
   function getBotReply(message) {
     const msg = message.toLowerCase();
 
@@ -463,16 +399,13 @@ We provide excellent facilities to support your learning:
     if (msg.includes("vision"))
         return casData.vision;
 
-    // 2. Specific Topics (Details/Fees/Eligibility)
-    
-    // PG Courses Detailed Match
+    // 2. Specific Courses Detailed Match
     if (msg.includes("m.sc computer science") || msg.includes("msc cs"))
         return casData.getCourseDetails('msc computer science');
     
     if (msg.includes("m.com finance") || msg.includes("mcom finance"))
         return casData.getCourseDetails('mcom finance');
 
-    // UG Courses Detailed Match
     if (msg.includes("b.sc computer science") || msg.includes("bsc cs"))
         return casData.getCourseDetails('bsc computer science');
         
@@ -547,17 +480,8 @@ Could you please rephrase your question or select one of the quick actions below
       const botResponse = getBotReply(text);
       addBotMessage(botResponse);
 
-      // Check if the response is the default fallback message
-      const isFallback = botResponse.includes("Couldn't quite understand that");
-      
-      // If it's the welcome message or any non-fallback/non-navigational response, show quick actions.
-      // This ensures quick actions always return after a successful answer.
-      if (!isFallback) {
-          initializeQuickActions();
-      } else {
-          // If it IS fallback, initialize the actions to prompt the user
-          initializeQuickActions();
-      }
+      // Always show quick actions after a reply
+      initializeQuickActions();
       
     }, 600);
   }
@@ -573,27 +497,6 @@ Could you please rephrase your question or select one of the quick actions below
       sendMessage();
     }
   });
-
-  // NEW: Dropdown Toggle Listener (Must be added to the quick-title element)
-  quickTitle.addEventListener("click", () => {
-    // This is a placeholder for the actual dropdown logic
-    // We will now rely on initializeQuickActions() to set the full list, 
-    // and the new CSS/HTML structure to handle the visual dropdown.
-    quickActions.classList.toggle('expanded'); // Toggle class for CSS control
-    // Re-create icons for the arrow if they change
-    lucide.createIcons();
-  });
-
-
-  // Re-wire the quick action buttons to call sendMessage with their content
-  // Note: The buttons are static in HTML, but dynamically re-set by initializeQuickActions
-  // We remove the static listeners and rely on the dynamic ones in setQuickActions
-  document.querySelectorAll(".quick-btn").forEach(btn => {
-    // Remove old listeners if they exist from the static HTML
-    // We will rely on the listeners added in setQuickActions
-    // For now, we will leave the static ones to avoid breaking the current setup without the dropdown CSS/HTML
-  });
-
 
   // initial greeting and quick actions display
   addBotMessage("Hello! 👋 I am the CAS Vattamkulam AI Assistant. I can help you with College Overview, Courses, Fees, Admission, and Facilities. What would you like to know?");

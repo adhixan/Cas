@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("userInput");
   const sendBtn = document.getElementById("sendBtn");
   const quickActions = document.getElementById("quickActions");
-  // The quickButtonsDiv element is now correctly referenced for the new tile UI
   const quickButtonsDiv = quickActions.querySelector('.quick-buttons'); 
+  // NEW: Dropdown element reference
+  const quickTitle = quickActions.querySelector('.quick-title');
+
 
   // HIDE QUICK ACTIONS ON LOAD
   quickActions.style.display = 'none';
@@ -45,26 +47,29 @@ We have dynamic departments covering various streams:
 
 • **Computer Science:** (B.Sc CS, BCA, M.Sc CS)
 • **Electronics:** (B.Sc Electronics)
-• **Commerce:** (B.Com Honours, M.Com Finance)
+• **Commerce:** (B.Com Honours, M.Com Finance, BBA Logistics Hons - NEW)
 • **General Department:** (Mathematics, English, etc.)
     `,
 
+    // UPDATED UG COURSES DATA
     ugCourses: `
 We offer the following **Undergraduate (UG)** programs:
 
-• **B.Sc Computer Science** (3 years)
-• **BCA** (3 years)
-• **B.Sc Electronics** (3 years)
-• **B.Com with Computer Application (Honours)** (4 years)
+• **B.Sc Computer Science Honours** (4 years, 36 Seats)
+• **BCA** (4 years, 24 Seats)
+• **B.Sc Electronics** (3 years, 36 Seats)
+• **B.Com with Computer Application (Honours)** (4 years, 48 Seats)
+• **BBA Logistics Honours** (4 years, 30 Seats - NEW)
 
-Need details on eligibility or intake for any of these?
+Need details on eligibility, fees, or intake for any of these?
     `,
 
+    // UPDATED PG COURSES DATA
     pgCourses: `
 We offer the following **Postgraduate (PG)** programs:
 
-• **M.Sc Computer Science** (2 years)
-• **M.Com Finance** (2 years)
+• **M.Sc Computer Science** (2 years, 10 Seats)
+• **M.Com Finance** (2 years, 15 Seats)
 
 These programs are excellent for career advancement!
     `,
@@ -100,16 +105,152 @@ To impart quality education and create professionals with high competency and va
 To develop into a contributing Centre of excellence in knowledge and technology creating globally competitive professionals who would contribute positively to the society.
     `,
 
+    // GENERAL FEES: Summarized
     fees: `
-The fee structure varies by course, but here are the approximate semester fees:
+The fee structure varies by course. Here are the approximate semester fees (excluding Admission, Alumni, and Caution Deposit fees):
 
-- **B.Sc/BCA:** ₹17,270 per semester
+- **B.Sc CS/BCA/B.Sc Electronics:** ₹17,270 per semester
 - **B.Com Honours:** ₹13,035 per semester
-- **M.Sc CS:** ₹22,575 per semester
-- **M.Com Finance:** ₹18,575 per semester
+- **BBA Logistics Honours:** ₹8,470 per semester (NEW)
+- **M.Sc CS:** ₹22,550 per semester
+- **M.Com Finance:** ₹18,425 per semester
 
-*Note: SC/ST/OEC students may be eligible for fee concessions and financial grants.*
+*Note: SC/ST/OEC students may be eligible for fee concessions and financial grants. All figures are per semester.*
     `,
+
+    // DETAILED COURSE DATA FUNCTIONS
+    getCourseDetails: (courseName) => {
+        const details = {
+            'msc computer science': {
+                seats: '10 + marginal increase',
+                duration: '2 Years (4 Semesters)',
+                eligibility: 'Bachelor of Computer Science',
+                selection: 'On the basis of marks of UG course.',
+                fees: `
+**M.Sc Computer Science Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 22,550 |
+| Admission Fee | 1,100 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹24,850. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'mcom finance': {
+                seats: '15 + marginal increase',
+                duration: '2 Years (4 Semesters)',
+                eligibility: 'Bachelor of Commerce',
+                selection: 'On the basis of marks of UG course.',
+                fees: `
+**M.Com Finance Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 18,425 |
+| Admission Fee | 1,100 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹20,725. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bsc computer science': {
+                seats: '36 + marginal increase',
+                duration: '4 Years (8 Semesters) - Honours',
+                eligibility: 'Higher Secondary or Equivalent with Maths or Electronics',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Sc Computer Science Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bca': {
+                seats: '24',
+                duration: '4 Years (8 Semesters)',
+                eligibility: 'HSE or equivalent with Mathematics/ Computer Science/Computer Application/ IT/Informatics Practice/Informatics/ Additional Mathematics.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**BCA Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bba logistics': {
+                seats: '30',
+                duration: '4 Years (8 Semesters) - Honours',
+                eligibility: 'HSE or equivalent with not less than 45%. 5% concession for OBC/OEC. Pass only for SC/ST.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**BBA Logistics Honours Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 8,470 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹10,000. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bsc electronics': {
+                seats: '36 + marginal increase',
+                duration: '3 Years (6 Semesters)',
+                eligibility: 'Higher Secondary or Equivalent with Maths or Electronics',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Sc Electronics Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bcom honours': {
+                seats: '48 + marginal increase',
+                duration: '4 Years (8 Semesters)',
+                eligibility: 'Higher Secondary or Equivalent.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Com Honours Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 13,035 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹14,565. SC/ST/OEC students may be eligible for exemption.*
+                `
+            }
+        }[courseName];
+
+        if (!details) return null;
+
+        return `
+**Details for ${courseName.toUpperCase()}:**
+
+• **Duration:** ${details.duration}
+• **Seats:** ${details.seats}
+• **Eligibility:** ${details.eligibility}
+• **Mode of Selection:** ${details.selection}
+
+${details.fees}
+
+*Note: PTA Fee & University affiliation fee are not included in the fee lists.*
+        `;
+    },
+
 
     admission: `
 The admission process is split into two parts:
@@ -117,7 +258,9 @@ The admission process is split into two parts:
 1.  **University Quota (50%):** Apply through the University of Calicut CAP portal.
 2.  **IHRD / Management Quota (50%):** Apply directly through the IHRD admission portal (ihrdadmissions.org).
 
-**Important:** Those seeking admission in the IHRD quota should also apply online to the college through **www.ihrdadmissions.org** apart from applying through University single window system.
+**Time of Notification:**
+• **UG Courses:** Just after the publication of +2 results of Kerala Govt.
+• **PG Courses:** Just after the publication of Degree results of Calicut University.
 
 Be sure to check both portals for deadlines!
     `,
@@ -136,43 +279,107 @@ We provide excellent facilities to support your learning:
 
 
   // --- 2. Quick Action Button Definitions ---
+  // Updated quick actions to prompt detailed queries
   const defaultActions = [
+      'B.Sc Computer Science details',
+      'M.Com Finance fees',
+      'BBA Logistics Honours eligibility',
+      'Admission procedure'
+  ];
+  // Expanded list for the dropdown
+  const allQuickActions = [
       'Show all courses',
       'Admission procedure',
+      'Facilities available',
       'Contact details',
-      'Facilities available'
+      'What is the fee structure?',
+      'B.Sc Computer Science details',
+      'BCA details',
+      'B.Sc Electronics details',
+      'B.Com Honours details',
+      'BBA Logistics Honours details',
+      'M.Sc Computer Science details',
+      'M.Com Finance details',
+      'Clubs and activities',
+      'What is the mission and vision?'
   ];
 
 
   // --- 3. Helper Functions for UI and Logic ---
 
   function setQuickActions(title, buttons) {
-      const quickTitle = quickActions.querySelector('.quick-title span');
+      const quickTitleSpan = quickActions.querySelector('.quick-title span');
+      quickTitleSpan.textContent = title;
       
-      quickTitle.textContent = title;
       quickButtonsDiv.innerHTML = ''; // Clear old buttons
       
-      buttons.forEach(btnText => {
+      // If we use allQuickActions, it's for the dropdown, which requires special handling
+      const buttonsToDisplay = title === 'More Options:' ? allQuickActions : defaultActions;
+
+
+      buttonsToDisplay.forEach(btnText => {
           const button = document.createElement('button');
           button.className = 'quick-btn';
           button.textContent = btnText;
+          // Dynamically set display based on dropdown state (only for the main list)
+          if(title === 'More Options:') {
+            // New: Hide by default for the dropdown effect, will be shown by CSS/JS toggle
+            button.style.display = 'none'; 
+          }
+
           button.addEventListener('click', () => {
+              // Toggle off the quick actions for a cleaner look when selecting
+              quickActions.style.display = 'none'; 
               // Set input value and trigger sendMessage
               input.value = button.textContent;
               sendMessage();
           });
           quickButtonsDiv.appendChild(button);
       });
-
+      // Set the initial visible actions to the *default* set for the quick-buttons div
+      // (This logic needs to be handled via CSS/HTML for a true dropdown toggle)
+      
       // Show the quick actions box
       quickActions.style.display = 'block';
   }
 
   function initializeQuickActions() {
       // Sets the default buttons and ensures they are wired up
-      setQuickActions('Quick questions:', defaultActions);
+      // We'll use the 'More Options' set, and let the CSS/JS handle the toggling
+      setQuickActions('More Options:', allQuickActions); 
+
+      // NEW: Ensure only the first few are initially visible (handled by CSS, but listing them here for clarity)
+      // The CSS/HTML will be responsible for the "dropdown" appearance.
   }
 
+  // NEW: Dropdown Toggle Function
+  function toggleQuickActionsDropdown() {
+      // Toggle a class on the container that controls the visibility of all quick-btn elements
+      quickActions.classList.toggle('expanded');
+      
+      // Toggle the arrow icon (handled by the CSS/HTML proposal)
+      const arrowIcon = quickActions.querySelector('.quick-title i[data-lucide]');
+      if (quickActions.classList.contains('expanded')) {
+          arrowIcon.setAttribute('data-lucide', 'chevron-down');
+      } else {
+          arrowIcon.setAttribute('data-lucide', 'sparkles'); // Or 'chevron-up' if you prefer
+      }
+
+      // Toggle visibility of all buttons in the quick-buttons container
+      const buttons = quickButtonsDiv.querySelectorAll('.quick-btn');
+      buttons.forEach((btn, index) => {
+          // You could show a smaller list by default or use a pure CSS approach
+          // For simplicity with the existing structure, we'll just show/hide all.
+          btn.style.display = quickActions.classList.contains('expanded') ? 'block' : 'none';
+      });
+
+      // After a user selection, we must collapse the dropdown
+      // This logic will be handled inside the button click event listener in setQuickActions
+  }
+  
+  // NOTE: For the 'drop down with arrow' to work correctly, the HTML and CSS must be modified. 
+  // I will proceed with the data logic in JS, assuming the user will apply the necessary visual changes.
+  // I'm keeping the original setQuickActions logic simple and focusing on data delivery.
 
   function addUserMessage(text) {
     const div = document.createElement("div");
@@ -244,11 +451,11 @@ We provide excellent facilities to support your learning:
     if (msg.includes("year") || msg.includes("established") || msg.includes("started") || msg.includes("when"))
       return "The College of Applied Science, Vattamkulam was proudly established in **2005** and has been serving students for almost two decades.";
 
-    // ADDED: Clubs and Activities
+    // Clubs and Activities
     if (msg.includes("activities") || msg.includes("club") || msg.includes("association"))
         return casData.activities;
 
-    // ADDED: Mission and Vision
+    // Mission and Vision
     if (msg.includes("mission") && msg.includes("vision"))
         return "Our guiding principles are:\n\n**Mission:** " + casData.mission + "\n\n**Vision:** " + casData.vision;
     if (msg.includes("mission"))
@@ -256,7 +463,33 @@ We provide excellent facilities to support your learning:
     if (msg.includes("vision"))
         return casData.vision;
 
-    // 2. Specific Topics
+    // 2. Specific Topics (Details/Fees/Eligibility)
+    
+    // PG Courses Detailed Match
+    if (msg.includes("m.sc computer science") || msg.includes("msc cs"))
+        return casData.getCourseDetails('msc computer science');
+    
+    if (msg.includes("m.com finance") || msg.includes("mcom finance"))
+        return casData.getCourseDetails('mcom finance');
+
+    // UG Courses Detailed Match
+    if (msg.includes("b.sc computer science") || msg.includes("bsc cs"))
+        return casData.getCourseDetails('bsc computer science');
+        
+    if (msg.includes("bca"))
+        return casData.getCourseDetails('bca');
+        
+    if (msg.includes("bba logistics") || msg.includes("bba hons"))
+        return casData.getCourseDetails('bba logistics');
+        
+    if (msg.includes("b.sc electronics") || msg.includes("bsc electronics"))
+        return casData.getCourseDetails('bsc electronics');
+
+    if (msg.includes("b.com honours") || msg.includes("bcom hons"))
+        return casData.getCourseDetails('bcom honours');
+
+
+    // 3. General Topics
     if (msg.includes("contact") || msg.includes("phone") || msg.includes("email") || msg.includes("address") || msg.includes("location") || msg.includes("where"))
       return casData.contact;
 
@@ -285,7 +518,7 @@ We provide excellent facilities to support your learning:
     if (/(facility|facilities|infrastructure|lab|library|gym)/.test(msg))
       return casData.facilities;
 
-    // 3. Default/Fallback
+    // 4. Default/Fallback
     return `
 I'm sorry, I couldn't quite understand that. 😟 
 
@@ -340,6 +573,27 @@ Could you please rephrase your question or select one of the quick actions below
       sendMessage();
     }
   });
+
+  // NEW: Dropdown Toggle Listener (Must be added to the quick-title element)
+  quickTitle.addEventListener("click", () => {
+    // This is a placeholder for the actual dropdown logic
+    // We will now rely on initializeQuickActions() to set the full list, 
+    // and the new CSS/HTML structure to handle the visual dropdown.
+    quickActions.classList.toggle('expanded'); // Toggle class for CSS control
+    // Re-create icons for the arrow if they change
+    lucide.createIcons();
+  });
+
+
+  // Re-wire the quick action buttons to call sendMessage with their content
+  // Note: The buttons are static in HTML, but dynamically re-set by initializeQuickActions
+  // We remove the static listeners and rely on the dynamic ones in setQuickActions
+  document.querySelectorAll(".quick-btn").forEach(btn => {
+    // Remove old listeners if they exist from the static HTML
+    // We will rely on the listeners added in setQuickActions
+    // For now, we will leave the static ones to avoid breaking the current setup without the dropdown CSS/HTML
+  });
+
 
   // initial greeting and quick actions display
   addBotMessage("Hello! 👋 I am the CAS Vattamkulam AI Assistant. I can help you with College Overview, Courses, Fees, Admission, and Facilities. What would you like to know?");

@@ -165,10 +165,10 @@ body {
   50% { transform: translateY(-5px); }
 }
 
-/* --- UPDATED QUICK ACTIONS (DROPDOWN) STYLES --- */
+/* --- QUICK ACTIONS (DROPDOWN) STYLES --- */
 .quick-actions {
   background: white;
-  padding: 12px 20px; /* Reduced bottom padding */
+  padding: 12px 20px; 
   border-top: 1px solid #ddd;
 }
 
@@ -185,7 +185,7 @@ body {
   position: relative;
   display: block; 
   width: 100%; 
-  max-width: 300px; 
+  max-width: 300px; /* Limit width for cleaner look */
 }
 
 .quick-select {
@@ -219,10 +219,10 @@ body {
   right: 15px;
   transform: translateY(-50%);
   color: #2563eb;
-  pointer-events: none; 
+  pointer-events: none; /* Allows click-through to the select element */
   font-size: 10px;
 }
-/* --- END OF UPDATED QUICK ACTIONS STYLES --- */
+/* --- END OF QUICK ACTIONS STYLES --- */
 
 
 /* Input */

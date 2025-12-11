@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("sendBtn");
   const quickActions = document.getElementById("quickActions");
   const quickButtonsDiv = quickActions.querySelector('.quick-buttons'); 
+  const quickTitle = quickActions.querySelector('.quick-title'); // Reference to the title for click event
+
 
   // HIDE QUICK ACTIONS ON LOAD
   quickActions.style.display = 'none';
 
-  // --- 1. Bot Data and Special Actions ---
+  // --- 1. Bot Data and Special Actions (UPDATED) ---
 
   const casData = {
     collegeInfo: `
@@ -42,33 +44,35 @@ You can reach the College of Applied Science, Vattamkulam, at:
     departments: `
 We have dynamic departments covering various streams:
 
-• **Computer Science:** (B.Sc CS, BCA, M.Sc CS)
+• **Computer Science:** (B.Sc CS Hons, BCA, M.Sc CS)
 • **Electronics:** (B.Sc Electronics)
-• **Commerce:** (B.Com Honours, M.Com Finance)
+• **Commerce:** (B.Com Hons, M.Com Finance, BBA Logistics Hons)
 • **General Department:** (Mathematics, English, etc.)
     `,
 
+    // UPDATED UG COURSES DATA
     ugCourses: `
 We offer the following **Undergraduate (UG)** programs:
 
-• **B.Sc Computer Science** (3 years)
-• **BCA** (3 years)
-• **B.Sc Electronics** (3 years)
-• **B.Com with Computer Application (Honours)** (4 years)
+• **B.Sc Computer Science Honours** (4 years, 36 Seats)
+• **BCA** (4 years, 24 Seats)
+• **B.Sc Electronics** (3 years, 36 Seats)
+• **B.Com with Computer Application (Honours)** (4 years, 48 Seats)
+• **BBA Logistics Honours** (4 years, 30 Seats)
 
-Need details on eligibility or intake for any of these?
+Need details on eligibility, fees, or intake for any of these?
     `,
 
+    // UPDATED PG COURSES DATA
     pgCourses: `
 We offer the following **Postgraduate (PG)** programs:
 
-• **M.Sc Computer Science** (2 years)
-• **M.Com Finance** (2 years)
+• **M.Sc Computer Science** (2 years, 10 Seats)
+• **M.Com Finance** (2 years, 15 Seats)
 
 These programs are excellent for career advancement!
     `,
 
-    // DATA ADDED: Clubs and Activities
     activities: `
 We encourage holistic development through various **Clubs and Associations**:
 
@@ -91,7 +95,6 @@ We encourage holistic development through various **Clubs and Associations**:
 17. **Media Cell**
     `,
 
-    // DATA ADDED: Mission and Vision
     mission: `
 To impart quality education and create professionals with high competency and values who can make indelible mark in their respective fields.
     `,
@@ -99,16 +102,152 @@ To impart quality education and create professionals with high competency and va
 To develop into a contributing Centre of excellence in knowledge and technology creating globally competitive professionals who would contribute positively to the society.
     `,
 
+    // GENERAL FEES: Summarized
     fees: `
-The fee structure varies by course, but here are the approximate semester fees:
+The fee structure varies by course. Here are the approximate semester fees (excluding Admission, Alumni, and Caution Deposit fees):
 
-- **B.Sc/BCA:** ₹17,270 per semester
+- **B.Sc CS/BCA/B.Sc Electronics:** ₹17,270 per semester
 - **B.Com Honours:** ₹13,035 per semester
-- **M.Sc CS:** ₹22,575 per semester
-- **M.Com Finance:** ₹18,575 per semester
+- **BBA Logistics Honours:** ₹8,470 per semester
+- **M.Sc CS:** ₹22,550 per semester
+- **M.Com Finance:** ₹18,425 per semester
 
-*Note: SC/ST/OEC students may be eligible for fee concessions and financial grants.*
+*Note: SC/ST/OEC students may be eligible for fee concessions and financial grants. All figures are per semester.*
     `,
+
+    // DETAILED COURSE DATA FUNCTION (NEW/UPDATED)
+    getCourseDetails: (courseName) => {
+        const details = {
+            'msc computer science': {
+                seats: '10 + marginal increase',
+                duration: '2 Years (4 Semesters)',
+                eligibility: 'Bachelor of Computer Science',
+                selection: 'On the basis of marks of UG course.',
+                fees: `
+**M.Sc Computer Science Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 22,550 |
+| Admission Fee | 1,100 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹24,850. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'mcom finance': {
+                seats: '15 + marginal increase',
+                duration: '2 Years (4 Semesters)',
+                eligibility: 'Bachelor of Commerce',
+                selection: 'On the basis of marks of UG course.',
+                fees: `
+**M.Com Finance Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 18,425 |
+| Admission Fee | 1,100 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹20,725. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bsc computer science': {
+                seats: '36 + marginal increase',
+                duration: '4 Years (8 Semesters) - Honours',
+                eligibility: 'Higher Secondary or Equivalent with Maths or Electronics',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Sc Computer Science Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bca': {
+                seats: '24',
+                duration: '4 Years (8 Semesters)',
+                eligibility: 'HSE or equivalent with Mathematics/ Computer Science/Computer Application/ IT/Informatics Practice/Informatics/ Additional Mathematics.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**BCA Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bba logistics': {
+                seats: '30',
+                duration: '4 Years (8 Semesters) - Honours',
+                eligibility: 'HSE or equivalent with not less than 45%. 5% concession for OBC/OEC. Pass only for SC/ST.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**BBA Logistics Honours Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 8,470 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹10,000. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bsc electronics': {
+                seats: '36 + marginal increase',
+                duration: '3 Years (6 Semesters)',
+                eligibility: 'Higher Secondary or Equivalent with Maths or Electronics',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Sc Electronics Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 17,270 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹18,800. SC/ST/OEC students may be eligible for exemption.*
+                `
+            },
+            'bcom honours': {
+                seats: '48 + marginal increase',
+                duration: '4 Years (8 Semesters)',
+                eligibility: 'Higher Secondary or Equivalent.',
+                selection: 'On the basis of marks of optional subjects at higher secondary course.',
+                fees: `
+**B.Com Honours Fee Details (Per Semester)**
+| Fee Particulars | Amount (₹) |
+|---|---|
+| Semester Fee | 13,035 |
+| Admission Fee | 330 |
+| Alumni Fee | 200 |
+| Caution Deposit (Refundable) | 1,000 |
+*Note: Total payable at admission is ₹14,565. SC/ST/OEC students may be eligible for exemption.*
+                `
+            }
+        }[courseName];
+
+        if (!details) return null;
+
+        return `
+**Details for ${courseName.toUpperCase()}:**
+
+• **Duration:** ${details.duration}
+• **Seats:** ${details.seats}
+• **Eligibility:** ${details.eligibility}
+• **Mode of Selection:** ${details.selection}
+
+${details.fees}
+
+*Note: PTA Fee & University affiliation fee are not included in the fee lists.*
+        `;
+    },
+
 
     admission: `
 The admission process is split into two parts:
@@ -116,10 +255,13 @@ The admission process is split into two parts:
 1.  **University Quota (50%):** Apply through the University of Calicut CAP portal.
 2.  **IHRD / Management Quota (50%):** Apply directly through the IHRD admission portal (ihrdadmissions.org).
 
+**Time of Notification:**
+• **UG Courses:** Just after the publication of +2 results of Kerala Govt.
+• **PG Courses:** Just after the publication of Degree results of Calicut University.
+
 Be sure to check both portals for deadlines!
     `,
 
-    // FACILITIES DATA (UPDATED)
     facilities: `
 We provide excellent facilities to support your learning:
 
@@ -132,21 +274,28 @@ We provide excellent facilities to support your learning:
   };
 
 
-  // --- 2. Quick Action Button Definitions ---
-  const defaultActions = [
+  // --- 2. Quick Action Button Definitions (UPDATED) ---
+  const allQuickActions = [
       'Show all courses',
       'Admission procedure',
       'Contact details',
-      'Facilities available'
+      'Facilities available',
+      'What is the fee structure?',
+      'B.Sc Computer Science details',
+      'BCA details',
+      'B.Sc Electronics details',
+      'B.Com Honours details',
+      'BBA Logistics Honours details',
+      'M.Sc Computer Science details',
+      'M.Com Finance details',
+      'Clubs and activities',
+      'What is the mission and vision?'
   ];
 
 
   // --- 3. Helper Functions for UI and Logic ---
 
-  function setQuickActions(title, buttons) {
-      const quickTitle = quickActions.querySelector('.quick-title span');
-      
-      quickTitle.textContent = title;
+  function createQuickActions(buttons) {
       quickButtonsDiv.innerHTML = ''; // Clear old buttons
       
       buttons.forEach(btnText => {
@@ -154,6 +303,8 @@ We provide excellent facilities to support your learning:
           button.className = 'quick-btn';
           button.textContent = btnText;
           button.addEventListener('click', () => {
+              // Hide quick actions for a clean transition
+              quickActions.style.display = 'none'; 
               // Set input value and trigger sendMessage
               input.value = button.textContent;
               sendMessage();
@@ -161,13 +312,18 @@ We provide excellent facilities to support your learning:
           quickButtonsDiv.appendChild(button);
       });
 
-      // Show the quick actions box
-      quickActions.style.display = 'block';
+      quickActions.style.display = 'block'; // Ensure the container is visible
   }
 
   function initializeQuickActions() {
-      // Sets the default buttons and ensures they are wired up
-      setQuickActions('Quick questions:', defaultActions);
+      // Set the full list of actions
+      createQuickActions(allQuickActions);
+      // Ensure the dropdown is collapsed initially
+      quickActions.classList.remove('expanded');
+      // Set the title text
+      quickTitle.querySelector('span').textContent = 'Quick Questions: Click to expand menu';
+      // Re-create lucide icons if they were dynamically changed
+      lucide.createIcons();
   }
 
 
@@ -220,32 +376,44 @@ We provide excellent facilities to support your learning:
   }
 
 
-  // --- 4. Reply Logic (FIXED FACILITIES MATCHING) ---
+  // --- 4. Reply Logic (UPDATED MATCHING) ---
 
   function getBotReply(message) {
     const msg = message.toLowerCase();
 
-    // 1. Core Info & Welcome
+    // Specific Course Details
+    if (msg.includes("m.sc computer science") || msg.includes("msc cs"))
+        return casData.getCourseDetails('msc computer science');
+    if (msg.includes("m.com finance") || msg.includes("mcom finance"))
+        return casData.getCourseDetails('mcom finance');
+    if (msg.includes("b.sc computer science") || msg.includes("bsc cs"))
+        return casData.getCourseDetails('bsc computer science');
+    if (msg.includes("bca"))
+        return casData.getCourseDetails('bca');
+    if (msg.includes("bba logistics") || msg.includes("bba hons"))
+        return casData.getCourseDetails('bba logistics');
+    if (msg.includes("b.sc electronics") || msg.includes("bsc electronics"))
+        return casData.getCourseDetails('bsc electronics');
+    if (msg.includes("b.com honours") || msg.includes("bcom hons"))
+        return casData.getCourseDetails('bcom honours');
+
+
+    // General Info & Welcome
     if (msg.includes("hello") || msg.includes("hi") || msg.includes("hai"))
       return "Hello! 👋 I am the CAS Vattamkulam AI Assistant. How can I assist you with information about the college today?";
     
-    // CAS Full Form
     if (msg.includes("full form") || msg.includes("cas full form") || msg.includes("cas means"))
       return casData.fullForm;
 
-    // General College Info
     if (msg.includes("about the college") || msg.includes("about cas") || msg.includes("what is cas"))
       return casData.collegeInfo + "\n\nWhat other details are you looking for?";
       
-    // Year Established
     if (msg.includes("year") || msg.includes("established") || msg.includes("started") || msg.includes("when"))
       return "The College of Applied Science, Vattamkulam was proudly established in **2005** and has been serving students for almost two decades.";
 
-    // ADDED: Clubs and Activities
     if (msg.includes("activities") || msg.includes("club") || msg.includes("association"))
         return casData.activities;
 
-    // ADDED: Mission and Vision
     if (msg.includes("mission") && msg.includes("vision"))
         return "Our guiding principles are:\n\n**Mission:** " + casData.mission + "\n\n**Vision:** " + casData.vision;
     if (msg.includes("mission"))
@@ -253,7 +421,8 @@ We provide excellent facilities to support your learning:
     if (msg.includes("vision"))
         return casData.vision;
 
-    // 2. Specific Topics
+
+    // Specific Topics
     if (msg.includes("contact") || msg.includes("phone") || msg.includes("email") || msg.includes("address") || msg.includes("location") || msg.includes("where"))
       return casData.contact;
 
@@ -278,27 +447,27 @@ We provide excellent facilities to support your learning:
     if (msg.includes("department") || msg.includes("departments"))
       return casData.departments;
 
-    // FIX: Using a regex for facilities to match multiple variations
     if (/(facility|facilities|infrastructure|lab|library|gym)/.test(msg))
       return casData.facilities;
 
-    // 3. Default/Fallback
+    // Default/Fallback
     return `
 I'm sorry, I couldn't quite understand that. 😟 
 
 I specialize in answering questions about CAS Vattamkulam's **courses, fees, admission process, and facilities.**
 
-Could you please rephrase your question or select one of the quick actions below?
+Could you please rephrase your question or select an option from the menu?
     `;
   }
 
-  // --- 5. Main Send Function (UPDATED QUICK ACTION DISPLAY LOGIC) ---
+  // --- 5. Main Send Function ---
 
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
-    // Hide quick actions when the user sends a message
+    // Always collapse and hide quick actions before sending
+    quickActions.classList.remove('expanded');
     quickActions.style.display = "none";
     
     addUserMessage(text);
@@ -311,17 +480,8 @@ Could you please rephrase your question or select one of the quick actions below
       const botResponse = getBotReply(text);
       addBotMessage(botResponse);
 
-      // Check if the response is the default fallback message
-      const isFallback = botResponse.includes("Couldn't quite understand that");
-      
-      // If it's the welcome message or any non-fallback/non-navigational response, show quick actions.
-      // This ensures quick actions always return after a successful answer.
-      if (!isFallback) {
-          initializeQuickActions();
-      } else {
-          // If it IS fallback, initialize the actions to prompt the user
-          initializeQuickActions();
-      }
+      // Re-initialize and show quick actions after every reply
+      initializeQuickActions();
       
     }, 600);
   }
@@ -338,17 +498,15 @@ Could you please rephrase your question or select one of the quick actions below
     }
   });
 
-  // Re-wire the quick action buttons to call sendMessage with their content
-  // Note: The buttons are static in HTML, but dynamically re-set by initializeQuickActions
-  document.querySelectorAll(".quick-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      input.value = btn.innerText;
-      quickActions.style.display = "none";
-      sendMessage();
-    });
+  // NEW: Dropdown Toggle Listener on the title
+  quickTitle.addEventListener("click", () => {
+    quickActions.classList.toggle('expanded'); // Toggle class for CSS control
+    // Re-create icons to apply the rotation/change
+    lucide.createIcons();
   });
+
 
   // initial greeting and quick actions display
   addBotMessage("Hello! 👋 I am the CAS Vattamkulam AI Assistant. I can help you with College Overview, Courses, Fees, Admission, and Facilities. What would you like to know?");
-  initializeQuickActions(); // Show buttons only after the initial welcome
+  initializeQuickActions();
 });

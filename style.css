@@ -1,31 +1,50 @@
-body {
+/* ---------------------------------------------------------
+   GLOBAL SETTINGS – Perfect Android Phone Fit
+--------------------------------------------------------- */
+html, body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none;
+  touch-action: manipulation;
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
 }
 
+/* Dynamic Android/iOS height fix */
+:root {
+  --app-height: 100dvh;
+}
+
+/* ---------------------------------------------------------
+   MAIN CHAT CONTAINER
+--------------------------------------------------------- */
 .chat-container {
   display: flex;
   flex-direction: column;
-  /* Default for mobile: full height and width */
-  height: 100vh; 
-  width: 100%;
+  width: 100vw;
+  height: var(--app-height);   /* 100% perfect phone height */
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
-/* 📱 Mobile Responsiveness (Phone Screen Ratio) 📱 */
-/* Apply this style only to screens wider than 600px (i.e., tablet and desktop) */
+/* Desktop / tablet limit */
 @media (min-width: 600px) {
   .chat-container {
-    max-width: 500px; /* Standard mobile-like width */
-    height: 90vh; /* Shorter height to center on desktop */
-    margin: 5vh auto 0 auto; /* Center horizontally and push down from top */
+    max-width: 500px;
+    height: 90vh;
+    margin: 5vh auto 0 auto;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     overflow: hidden;
   }
 }
 
-/* Header */
+/* ---------------------------------------------------------
+   HEADER
+--------------------------------------------------------- */
 .header {
   background: linear-gradient(to right, #ef4444, #dc2626);
   padding: 16px;
@@ -46,11 +65,11 @@ body {
 }
 
 .college-logo {
-  height: 48px;       /* adjust if your logo is larger/smaller */
+  height: 48px;
   width: auto;
   margin-right: 12px;
-  border-radius: 4px; /* optional */
   object-fit: contain;
+  border-radius: 4px;
 }
 
 .college-title {
@@ -77,11 +96,14 @@ body {
   backdrop-filter: blur(3px);
 }
 
-/* Messages */
+/* ---------------------------------------------------------
+   MESSAGES AREA
+--------------------------------------------------------- */
 .messages {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .msg {
@@ -103,8 +125,8 @@ body {
   border-radius: 16px;
   max-width: 70%;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
   white-space: pre-line;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
 }
 
 .bubble-bot {
@@ -123,8 +145,8 @@ body {
   height: 40px;
   border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .user-icon {
@@ -138,7 +160,9 @@ body {
   box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
 
-/* Typing dots */
+/* ---------------------------------------------------------
+   TYPING INDICATOR
+--------------------------------------------------------- */
 .typing {
   display: flex;
   gap: 6px;
@@ -153,18 +177,25 @@ body {
   animation: bounce 0.6s infinite;
 }
 
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
 
-/* Quick Actions */
+/* ---------------------------------------------------------
+   QUICK ACTION BUTTONS
+--------------------------------------------------------- */
 .quick-actions {
   background: white;
-  padding: 12px 20px 44px 20px; /* Corrected: Ensures space above input box */
+  padding: 12px 20px 44px 20px;
   border-top: 1px solid #ddd;
 }
 
@@ -185,20 +216,22 @@ body {
 
 .quick-btn {
   padding: 8px 14px;
-  border: 1px solid #d0d7ff;
   background: white;
+  border: 1px solid #d0d7ff;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
   color: #2563eb;
-  transition: background 0.2s;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .quick-btn:hover {
   background: #eef2ff;
 }
 
-/* Input */
+/* ---------------------------------------------------------
+   INPUT BAR
+--------------------------------------------------------- */
 .input-box {
   display: flex;
   gap: 10px;
@@ -212,6 +245,7 @@ body {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 #sendBtn {
@@ -224,11 +258,9 @@ body {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 #sendBtn:hover {
   opacity: 0.85;
-
 }
-
-

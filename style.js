@@ -4,13 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("userInput");
   const sendBtn = document.getElementById("sendBtn");
   const quickActions = document.getElementById("quickActions");
-  const quickSelect = document.getElementById("quickSelect"); // Get the select element
+  const quickButtonsDiv = quickActions.querySelector('.quick-buttons'); 
+  const quickTitle = quickActions.querySelector('.quick-title'); // Reference to the title for click event
 
 
   // HIDE QUICK ACTIONS ON LOAD
   quickActions.style.display = 'none';
 
-  // --- 1. Bot Data and Special Actions (UPDATED with new Admission Detail) ---
+  // --- 1. Bot Data and Special Actions (UPDATED) ---
 
   const casData = {
     collegeInfo: `
@@ -74,7 +75,24 @@ These programs are excellent for career advancement!
 
     activities: `
 We encourage holistic development through various **Clubs and Associations**:
-// ... (Activities list remains unchanged) ...
+
+1. **NSS Unit**
+2. **Career Guidance & Placement Cell**
+3. **Standard Club**
+4. **Health & Sports Club**
+5. **Bhoomithra Sena Club**
+6. **Daksha Club**
+7. **Women Development Cell**
+8. **Commerce Association**
+9. **Computer Science Association**
+10. **Electronics Association**
+11. **IT Hub**
+12. **Literary Club**
+13. **Mathematics Club**
+14. **ED Club** (Entrepreneurship Development Club)
+15. **Tourism Club**
+16. **Institution's Innovation Council**
+17. **Media Cell**
     `,
 
     mission: `
@@ -96,31 +114,9 @@ The fee structure varies by course. Here are the approximate semester fees (excl
 
 *Note: SC/ST/OEC students may be eligible for fee concessions and financial grants. All figures are per semester.*
     `,
-    
-    admission: `
-### 🎓 Admission Procedure (UG & PG Courses)
 
-Admission to all courses is conducted through a dual-quota system:
-* **University Quota (50%):** Filled through the University of Calicut CAP portal.
-* **IHRD / Management Quota (50%):** Filled directly through the IHRD admission portal (**www.ihrdadmissions.org**).
-
-**IMPORTANT NOTE for IHRD Quota Applicants:**
-Those who are seeking admission in the IHRD quota **should also apply online to the college through www.ihrdadmissions.org** apart from applying through University single window system. This step is mandatory to be considered for the IHRD Quota seats.
-    `,
-    
-    facilities: `
-We provide excellent facilities to support your learning:
-
-• **Modern Computer Lab** (fully equipped)
-• **Electronics Lab**
-• **Comprehensive Library**
-• **Open Gym** for fitness
-• **NSS Unit** and dedicated **Placement Support** team.
-    `,
-    
-    // DETAILED COURSE DATA FUNCTION (UNCHANGED)
+    // DETAILED COURSE DATA FUNCTION (NEW/UPDATED)
     getCourseDetails: (courseName) => {
-        // ... (Course details logic remains unchanged) ...
         const details = {
             'msc computer science': {
                 seats: '10 + marginal increase',
@@ -251,16 +247,103 @@ ${details.fees}
 *Note: PTA Fee & University affiliation fee are not included in the fee lists.*
         `;
     },
-  
+
+
+    admission: `
+### 🎓 Admission Procedure (UG & PG Courses)
+
+Admission to all courses is conducted through a dual-quota system:
+* **University Quota (50%):** Filled through the University of Calicut CAP portal.
+* **IHRD / Management Quota (50%):** Filled directly through the IHRD admission portal (**www.ihrdadmissions.org**).
+
+---
+#### **1. Undergraduate (UG) Admission**
+
+* **Time of Notification:** After the publication of the Kerala Govt. +2 results.
+* **Course Intake (Total Seats mentioned in UG section):**
+    * B.Sc Computer Science Honours: **36 seats**
+    * BCA: **24 seats**
+    * B.Sc Electronics: **36 seats**
+    * B.Com Honours: **48 seats** (Note: Previous data mentioned 60, but UG list shows 48 seats for B.Com Hons)
+    * BBA Logistics Honours: **30 seats**
+* **Application Requirement:** Applicants must apply through **both** the Calicut University single-window system (CAP) and the IHRD online admission portal for IHRD/Management quota consideration.
+
+---
+#### **2. Postgraduate (PG) Admission**
+
+* **Time of Notification:** After the publication of the Calicut University Degree results.
+* **Course Intake (Total Seats):**
+    * M.Sc Computer Science: **10 seats**
+    * M.Com Finance: **15 seats**
+* **Application Requirement:** Applicants must apply through **both** the Calicut University single-window procedure and the IHRD online admission portal for IHRD/Management quota consideration.
+
+Be sure to check both portals for official notifications and deadlines!
+    `,
+
+    facilities: `
+We provide excellent facilities to support your learning:
+
+• **Modern Computer Lab** (fully equipped)
+• **Electronics Lab**
+• **Comprehensive Library**
+• **Open Gym** for fitness
+• **NSS Unit** and dedicated **Placement Support** team.
+    `
   };
 
 
-  // --- 2. Quick Action Button Definitions (NA - Using Select Options) ---
+  // --- 2. Quick Action Button Definitions (UPDATED) ---
+  const allQuickActions = [
+      'Show all courses',
+      'Admission procedure',
+      'Contact details',
+      'Facilities available',
+      'What is the fee structure?',
+      'B.Sc Computer Science details',
+      'BCA details',
+      'B.Sc Electronics details',
+      'B.Com Honours details',
+      'BBA Logistics Honours details',
+      'M.Sc Computer Science details',
+      'M.Com Finance details',
+      'Clubs and activities',
+      'What is the mission and vision?'
+  ];
 
-  // No explicit quick action definitions needed as they are in index.html
 
+  // --- 3. Helper Functions for UI and Logic ---
 
-  // --- 3. Helper Functions for UI and Logic (UNCHANGED) ---
+  function createQuickActions(buttons) {
+      quickButtonsDiv.innerHTML = ''; // Clear old buttons
+      
+      buttons.forEach(btnText => {
+          const button = document.createElement('button');
+          button.className = 'quick-btn';
+          button.textContent = btnText;
+          button.addEventListener('click', () => {
+              // Hide quick actions for a clean transition
+              quickActions.style.display = 'none'; 
+              // Set input value and trigger sendMessage
+              input.value = button.textContent;
+              sendMessage();
+          });
+          quickButtonsDiv.appendChild(button);
+      });
+
+      quickActions.style.display = 'block'; // Ensure the container is visible
+  }
+
+  function initializeQuickActions() {
+      // Set the full list of actions
+      createQuickActions(allQuickActions);
+      // Ensure the dropdown is collapsed initially
+      quickActions.classList.remove('expanded');
+      // Set the title text
+      quickTitle.querySelector('span').textContent = 'Quick Questions: Click to expand menu';
+      // Re-create lucide icons if they were dynamically changed
+      lucide.createIcons();
+  }
+
 
   function addUserMessage(text) {
     const div = document.createElement("div");
@@ -311,29 +394,12 @@ ${details.fees}
   }
 
 
-  // --- 4. Reply Logic (UPDATED to match the new quick questions) ---
+  // --- 4. Reply Logic (UPDATED MATCHING) ---
 
   function getBotReply(message) {
     const msg = message.toLowerCase();
 
-    // Quick Question Mappings (Matches value from the select options)
-    if (msg.includes("show all courses") || msg.includes("all courses"))
-      return casData.ugCourses + "\n\n" + casData.pgCourses;
-    
-    if (msg.includes("admission detail") || msg.includes("admission procedure"))
-      return casData.admission;
-      
-    if (msg.includes("facilities available") || msg.includes("facilities"))
-      return casData.facilities;
-      
-    if (msg.includes("fee structure") || msg.includes("fees"))
-      return casData.fees;
-      
-    if (msg.includes("contact details") || msg.includes("contact"))
-      return casData.contact;
-
-
-    // Specific Course Details (Remain for typed input)
+    // Specific Course Details
     if (msg.includes("m.sc computer science") || msg.includes("msc cs"))
         return casData.getCourseDetails('msc computer science');
     if (msg.includes("m.com finance") || msg.includes("mcom finance"))
@@ -354,27 +420,72 @@ ${details.fees}
     if (msg.includes("hello") || msg.includes("hi") || msg.includes("hai"))
       return "Hello! 👋 I am the CAS Vattamkulam AI Assistant. How can I assist you with information about the college today?";
     
-    if (msg.includes("about the college") || msg.includes("what is cas"))
+    if (msg.includes("full form") || msg.includes("cas full form") || msg.includes("cas means"))
+      return casData.fullForm;
+
+    if (msg.includes("about the college") || msg.includes("about cas") || msg.includes("what is cas"))
       return casData.collegeInfo + "\n\nWhat other details are you looking for?";
       
+    if (msg.includes("year") || msg.includes("established") || msg.includes("started") || msg.includes("when"))
+      return "The College of Applied Science, Vattamkulam was proudly established in **2005** and has been serving students for almost two decades.";
+
+    if (msg.includes("activities") || msg.includes("club") || msg.includes("association"))
+        return casData.activities;
+
+    if (msg.includes("mission") && msg.includes("vision"))
+        return "Our guiding principles are:\n\n**Mission:** " + casData.mission + "\n\n**Vision:** " + casData.vision;
+    if (msg.includes("mission"))
+        return casData.mission;
+    if (msg.includes("vision"))
+        return casData.vision;
+
+
+    // Specific Topics
+    if (msg.includes("contact") || msg.includes("phone") || msg.includes("email") || msg.includes("address") || msg.includes("location") || msg.includes("where"))
+      return casData.contact;
+
+    if (msg.includes("principal") || msg.includes("head"))
+      return casData.principal;
+
+    if (msg.includes("ug") || msg.includes("undergraduate"))
+      return casData.ugCourses;
+
+    if (msg.includes("pg") || msg.includes("postgraduate"))
+      return casData.pgCourses;
+
+    if (msg.includes("course") || msg.includes("program") || msg.includes("degree") || msg.includes("all courses"))
+      return casData.ugCourses + "\n\n" + casData.pgCourses;
+
+    if (msg.includes("fees") || msg.includes("fee") || msg.includes("cost") || msg.includes("fee structure"))
+      return casData.fees;
+
+    if (msg.includes("admission") || msg.includes("apply") || msg.includes("quota") || msg.includes("procedure"))
+      return casData.admission;
+
+    if (msg.includes("department") || msg.includes("departments"))
+      return casData.departments;
+
+    if (/(facility|facilities|infrastructure|lab|library|gym)/.test(msg))
+      return casData.facilities;
+
     // Default/Fallback
     return `
 I'm sorry, I couldn't quite understand that. 😟 
 
 I specialize in answering questions about CAS Vattamkulam's **courses, fees, admission process, and facilities.**
 
-You can also use the **Quick Questions** dropdown menu below for common queries.
+Could you please rephrase your question or select an option from the menu?
     `;
   }
 
   // --- 5. Main Send Function ---
 
-  function sendMessage(textFromQuickSelect = null) {
-    const text = textFromQuickSelect || input.value.trim();
-    
+  function sendMessage() {
+    const text = input.value.trim();
     if (!text) return;
 
-    // Hide quick actions before sending
+    // Always collapse and hide quick actions before sending
+    quickActions.classList.remove('expanded');
     quickActions.style.display = "none";
     
     addUserMessage(text);
@@ -387,9 +498,8 @@ You can also use the **Quick Questions** dropdown menu below for common queries.
       const botResponse = getBotReply(text);
       addBotMessage(botResponse);
 
-      // Re-show quick actions after every reply and reset the dropdown
-      quickSelect.value = ""; // Reset dropdown to the disabled/default option
-      quickActions.style.display = "block";
+      // Re-initialize and show quick actions after every reply
+      initializeQuickActions();
       
     }, 600);
   }
@@ -397,7 +507,7 @@ You can also use the **Quick Questions** dropdown menu below for common queries.
 
   // --- 6. Event Listeners and Initialization ---
 
-  sendBtn.addEventListener("click", () => sendMessage());
+  sendBtn.addEventListener("click", sendMessage);
 
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -406,15 +516,15 @@ You can also use the **Quick Questions** dropdown menu below for common queries.
     }
   });
 
-  // NEW: Listener for the Quick Select Dropdown
-  quickSelect.addEventListener("change", (e) => {
-    if (e.target.value) {
-      sendMessage(e.target.value);
-    }
+  // NEW: Dropdown Toggle Listener on the title
+  quickTitle.addEventListener("click", () => {
+    quickActions.classList.toggle('expanded'); // Toggle class for CSS control
+    // Re-create icons to apply the rotation/change
+    lucide.createIcons();
   });
 
 
-  // initial greeting and chat start
-  addBotMessage("Hello! 👋 I am the CAS Vattamkulam AI Assistant. I can help you with College Overview, Courses, Fees, Admission, and Facilities. Please select a quick question below or type your query.");
-  quickActions.style.display = 'block'; // Ensure quick actions are visible initially
+  // initial greeting and quick actions display
+  addBotMessage("Hello! 👋 I am the CAS Vattamkulam AI Assistant. I can help you with College Overview, Courses, Fees, Admission, and Facilities. What would you like to know?");
+  initializeQuickActions();
 });

@@ -1,0 +1,268 @@
+/* style.css */
+
+/* General Reset and Styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  /* Default for mobile: full height and width */
+  height: 100vh; 
+  width: 100%;
+}
+
+/* 📱 Mobile Responsiveness (Phone Screen Ratio) 📱 */
+/* Apply this style only to screens wider than 600px (i.e., tablet and desktop) */
+@media (min-width: 600px) {
+  .chat-container {
+    max-width: 500px; /* Standard mobile-like width */
+    /* *** MODIFIED FOR POSITIONING *** */
+    height: 80vh; /* Reduced height to make it "a little above" the bottom */
+    margin: 10vh auto 0 auto; /* Pushes it down 10vh from the top, resulting in 10vh space at the bottom (100vh - 80vh - 10vh = 10vh margin-bottom) */
+    /* ******************************* */
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+}
+
+/* Header */
+.header {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  padding: 16px;
+  color: white;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  flex-shrink: 0; /* Ensures the header doesn't shrink */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.college-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.college-title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.college-sub {
+  font-size: 0.9em;
+  font-weight: 300;
+}
+
+.affiliated {
+  font-size: 0.7em;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.assistant-tag span {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+/* Messages Area */
+.messages {
+  flex-grow: 1; /* Takes up all available space */
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f7f9fc;
+}
+
+/* Individual Message Styles */
+.message {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.message-user {
+  justify-content: flex-end;
+}
+
+.message-bot {
+  justify-content: flex-start;
+}
+
+.user-icon, .bot-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.user-icon {
+  background: #007bff;
+  color: white;
+  order: 2; /* Moves the icon to the right of the bubble */
+  margin-left: 10px;
+}
+
+.bot-icon {
+  background: #ef4444;
+  color: white;
+  order: 1; /* Stays on the left */
+  margin-right: 10px;
+}
+
+.bubble {
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 70%;
+  line-height: 1.5;
+  font-size: 14px;
+  word-wrap: break-word; /* Ensure long words break */
+}
+
+.bubble-user {
+  background-color: #007bff;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.bubble-bot {
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-bottom-left-radius: 4px;
+}
+
+/* Typing Animation (Bot Bubble) */
+.typing-message {
+  display: flex;
+  align-items: center;
+}
+
+/* Typing dots */
+.typing {
+  display: flex;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background: gray;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: white;
+  padding: 12px 20px;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0; /* Ensures the quick actions bar doesn't shrink */
+}
+
+.quick-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #555;
+  font-size: 14px;
+}
+
+.spark {
+  color: gold;
+}
+
+.quick-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-btn {
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.quick-btn:hover {
+  background-color: #e5e5e5;
+  border-color: #ccc;
+}
+
+
+/* Input Box */
+.input-box {
+  display: flex;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0; /* Ensures the input box doesn't shrink */
+}
+
+.input-box input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-box button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.input-box button:hover {
+  background-color: #dc2626;
+}
+
+.input-box button i {
+  width: 20px;
+  height: 20px;
+}

@@ -8,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   /* Default for mobile: full height and width */
-  height: 100vh; 
+  height: 150vh; 
   width: 100%;
 }
 
@@ -228,4 +228,5 @@ body {
 
 #sendBtn:hover {
   opacity: 0.85;
+
 }

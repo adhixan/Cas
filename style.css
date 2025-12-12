@@ -6,6 +6,8 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .chat-container {
@@ -29,10 +31,10 @@ body {
 
 /* Header */
 .header {
-  background: rgba(255,255,255,0.9);
-  padding: 16px;
+  background: rgba(255,255,255,0.95);
+  padding: 14px 16px;
   border-bottom: 1px solid #e5e7eb;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
 }
 
 .header-content {
@@ -50,7 +52,7 @@ body {
 .college-logo {
   height: 42px;
   width: 42px;
-  border-radius: 12px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
@@ -62,6 +64,15 @@ body {
 .college-sub {
   font-size: 13px;
   opacity: 0.65;
+}
+
+.header-actions button {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
 }
 
 /* Messages Area */
@@ -91,16 +102,17 @@ body {
 .bubble {
   padding: 12px 16px;
   border-radius: 18px;
-  max-width: 70%;
+  max-width: 77%;
   font-size: 14px;
-  line-height: 1.4;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  line-height: 1.45;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   white-space: pre-line;
+  word-break: break-word;
 }
 
 .bubble-bot {
   background: white;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #eef0f6;
 }
 
 .bubble-user {
@@ -125,7 +137,7 @@ body {
 /* Input Box */
 .input-box {
   display: flex;
-  padding: 14px;
+  padding: 12px;
   background: white;
   border-top: 1px solid #ddd;
   gap: 10px;
@@ -137,6 +149,7 @@ body {
   border: 1px solid #d0d0d0;
   border-radius: 14px;
   font-size: 14px;
+  outline: none;
 }
 
 #sendBtn {
@@ -152,4 +165,4 @@ body {
   align-items: center;
 }
 
-#sendBtn:hover { opacity: 0.85; }
+#sendBtn:hover { opacity: 0.92; }

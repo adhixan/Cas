@@ -9,7 +9,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
-    // Using the CSS variable convention for better mobile height fixes
     function fixHeight() {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -22,49 +21,34 @@
 </head>
 
 <body>
-  <div class="chat-container"> 
 
+  <div class="chat-container">
+
+    <!-- Modern Compact Header -->
     <div class="header">
       <div class="header-content">
         <div class="brand">
-          <img src="logo.png" alt="College Logo" class="college-logo" />
-
+          <img src="logo.png" class="college-logo" />
           <div>
-            <div class="college-title">COLLEGE OF APPLIED SCIENCE</div>
-            <div class="college-sub">VATTAMKULAM</div>
-            <div class="affiliated">Affiliated to University of Calicut</div>
+            <div class="college-title">CAS Vattamkulam</div>
+            <div class="college-sub">AI Assistant</div>
           </div>
         </div>
-
-        <div class="assistant-tag">
-          <span>AI Assistant</span>
-        </div>
       </div>
     </div>
 
-    <div id="messages" class="messages">
-      </div>
+    <!-- Messages -->
+    <div id="messages" class="messages"></div>
 
-    <div id="quickActions" class="quick-actions">
-      <div class="quick-title">
-        <i data-lucide="sparkles" class="spark"></i>
-        <span>Quick questions:</span>
-      </div>
-      
-      <div class="quick-buttons">
-        </div>
-    </div>
+    <!-- Input -->
     <div class="input-box">
-      <input type="text" id="userInput" placeholder="Ask me anything about CAS Vattamkulam..." />
-      <button id="sendBtn">
-        <i data-lucide="send"></i> Send
-      </button>
+      <input type="text" id="userInput" placeholder="Type your message..." />
+      <button id="sendBtn"><i data-lucide="send"></i></button>
     </div>
 
   </div>
 
   <script>
-    // This script replaces the data-lucide attributes with the actual SVG icons
     lucide.createIcons(); 
   </script>
   <script src="style.js"></script>

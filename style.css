@@ -1,45 +1,44 @@
 :root {
-  --vh: 1vh; /* Custom property for mobile height fix */
+  --vh: 1vh;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
 }
 
 .chat-container {
   display: flex;
   flex-direction: column;
-  /* Default for mobile: full height and width (using custom property) */
-  height: calc(var(--vh, 1vh) * 100); 
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
 }
 
-/* 📱 Mobile Responsiveness (Tablet/Desktop) 📱 */
+/* Desktop Centering */
 @media (min-width: 600px) {
   .chat-container {
-    max-width: 500px; /* Standard mobile-like width */
-    height: 90vh; /* Shorter height to center on desktop */
-    margin: 5vh auto 0 auto; /* Center horizontally and push down from top */
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    max-width: 480px;
+    height: 90vh;
+    margin: 5vh auto;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     overflow: hidden;
   }
 }
 
 /* Header */
 .header {
-  background: linear-gradient(to right, #ef4444, #dc2626);
+  background: rgba(255,255,255,0.9);
   padding: 16px;
-  color: white;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  border-bottom: 1px solid #e5e7eb;
+  backdrop-filter: blur(8px);
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .brand {
@@ -49,196 +48,108 @@ body {
 }
 
 .college-logo {
-  height: 48px;
-  width: auto;
-  margin-right: 12px;
-  border-radius: 4px;
-  object-fit: contain;
+  height: 42px;
+  width: 42px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 .college-title {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .college-sub {
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffe1e1;
+  font-size: 13px;
+  opacity: 0.65;
 }
 
-.affiliated {
-  font-size: 11px;
-  opacity: 0.8;
-  font-style: italic;
-}
-
-.assistant-tag {
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  backdrop-filter: blur(3px);
-}
-
-/* Messages */
+/* Messages Area */
 .messages {
   flex: 1;
-  padding: 20px;
+  padding: 18px;
   overflow-y: auto;
-  background-color: #fcfdff; 
+  background: #f8f9ff;
 }
 
+/* Message Layout */
 .msg {
   display: flex;
   gap: 12px;
   margin-bottom: 14px;
 }
 
-.msg-bot {
-  justify-content: flex-start;
-}
-
 .msg-user {
   justify-content: flex-end;
 }
 
+.msg-bot {
+  justify-content: flex-start;
+}
+
+/* Chat Bubbles */
 .bubble {
   padding: 12px 16px;
-  border-radius: 16px;
+  border-radius: 18px;
   max-width: 70%;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   white-space: pre-line;
 }
 
 .bubble-bot {
   background: white;
-  color: #333;
+  border: 1px solid #e5e7eb;
 }
 
 .bubble-user {
-  background: linear-gradient(to right, #2563eb, #4f46e5);
+  background: linear-gradient(to right, #6366f1, #4f46e5);
   color: white;
-}
-
-.user-icon,
-.bot-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.user-icon {
-  background: linear-gradient(to right, #2563eb, #4f46e5);
-  color: white;
-}
-
-.bot-icon {
-  background: white;
-  color: #2563eb;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
 
 /* Typing dots */
-.typing {
-  display: flex;
-  gap: 6px;
-  padding-top: 10px;
-}
-
+.typing { display: flex; gap: 6px; }
 .dot {
   width: 7px;
   height: 7px;
   background: gray;
   border-radius: 50%;
-  animation: bounce 0.6s infinite;
+  animation: bounce .6s infinite;
 }
-
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
-
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
-/* --- QUICK ACTIONS (BUTTON TILES) STYLES --- */
-.quick-actions {
-  background: white;
-  padding: 12px 20px; 
-  border-top: 1px solid #ddd;
-}
-
-.quick-title {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  color: #555;
-  font-size: 14px;
-  margin-bottom: 10px; /* Space above the buttons */
-}
-
-/* ADDED: Container for the new quick-action buttons */
-.quick-buttons {
-  display: flex;
-  flex-wrap: wrap; /* Allow buttons to wrap to the next line */
-  gap: 8px; /* Spacing between buttons */
-}
-
-/* ADDED: Style for the individual quick action button tiles */
-.quick-btn {
-  padding: 8px 16px;
-  background-color: #f0f4ff; /* Light blue background */
-  color: #2563eb; /* Blue text color */
-  border: 1px solid #c9d0f0;
-  border-radius: 20px; /* Pill shape */
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  flex-shrink: 0; /* Prevents buttons from shrinking */
-}
-
-.quick-btn:hover {
-  background-color: #e0e7ff; /* Slightly darker blue on hover */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-/* --- END OF QUICK ACTIONS STYLES --- */
-
-
-/* Input */
+/* Input Box */
 .input-box {
   display: flex;
-  gap: 10px;
   padding: 14px;
   background: white;
   border-top: 1px solid #ddd;
+  gap: 10px;
 }
 
 #userInput {
   flex: 1;
   padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #d0d0d0;
+  border-radius: 14px;
   font-size: 14px;
 }
 
 #sendBtn {
-  padding: 12px 20px;
-  background: linear-gradient(to right, #2563eb, #4f46e5);
-  color: white;
+  width: 52px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(to right,#6366f1,#4f46e5);
   border: none;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  color: white;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#sendBtn:hover {
-  opacity: 0.85;
-}
-
-}
+#sendBtn:hover { opacity: 0.85; }
